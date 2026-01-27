@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Konfigurator lebdeče postelje</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="stage">
+      <div class="hero">
+        <img id="bedImg" src="images/fallback.jpg" alt="Lebdeča postelja" />
+      </div>
+      <div class="imgHint" id="imgHint"></div>
+    </div>
+
+    <aside class="panel">
+      <h1 class="h1">Konfigurator lebdeče postelje</h1>
+
+      <div class="row">
+        <div class="label"><span>Dimenzija ležišča</span><span id="sizeVal"></span></div>
+        <div class="seg" id="sizes"></div>
+      </div>
+
+      <div class="row">
+        <div class="label"><span>Stil vzglavja</span><span id="headVal"></span></div>
+        <div class="seg5" id="heads"></div>
+      </div>
+
+      <div class="row">
+        <div class="label"><span>Barva okvirja</span><span id="frameColorVal"></span></div>
+        <div class="colors" id="frameColors"></div>
+      </div>
+
+      <div class="row" id="headColorRow">
+        <div class="label"><span>Barva vzglavja</span><span id="headColorVal"></span></div>
+        <div class="colors" id="headColors"></div>
+      </div>
+
+      <div class="row note" id="headColorNote" style="display:none;">
+        Vzglavje je iz iverala, zato barva vzglavja = barva okvirja.
+      </div>
+
+      <div class="row">
+        <div class="label"><span>Dodatki (LED)</span><span id="addonsVal"></span></div>
+        <div class="addons" id="addons"></div>
+      </div>
+
+      <div class="priceBox">
+        <div class="prices">
+          <div>
+            <div class="old" id="oldPrice"></div>
+            <div class="new" id="newPrice"></div>
+            <div class="promo" id="promoText"></div>
+          </div>
+          <div class="pill" id="totalPill"></div>
+        </div>
+
+        <div class="cart" id="cartBox"></div>
+
+        <div class="cta">
+          <button class="btn" id="payBtn">Plačaj (Stripe)</button>
+        </div>
+        <div class="small">Naslov in kontakt stranka vpiše v Stripe Checkoutu (shipping address).</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- IMPORTANT: load config before app -->
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

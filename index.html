@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Konfigurator lebdeče postelje</title>
-  <link rel="stylesheet" href="assets/styles.css">
+
+  <link rel="stylesheet" href="assets/styles.css?v=3">
 </head>
 <body>
   <div class="wrap">
@@ -67,8 +68,25 @@
     </aside>
   </div>
 
-  <!-- IMPORTANT: load config before app -->
-  <script src="assets/config.js"></script>
-  <script src="assets/app.js"></script>
+  <!-- Če JS ne dela zaradi extensionov, bo vsaj vidno: -->
+  <noscript>
+    <div style="max-width:900px;margin:12px auto;color:#fff;padding:12px;border:1px solid #333;border-radius:12px;background:#111;">
+      Tvoj brskalnik ima izklopljen JavaScript, zato konfigurator ne more delati.
+    </div>
+  </noscript>
+
+  <!-- IMPORTANT: config mora biti pred app -->
+  <script src="assets/config.js?v=3"></script>
+  <script src="assets/app.js?v=3"></script>
+
+  <!-- Debug fallback: če extension ubije app.js, boš videl opozorilo -->
+  <script>
+    setTimeout(function(){
+      var sizes = document.getElementById("sizes");
+      if (sizes && sizes.children.length === 0) {
+        console.warn("Konfigurator se ni inicializiral. Verjetno razširitev (extension) blokira JS. Poskusi Incognito ali ugasni razširitve.");
+      }
+    }, 600);
+  </script>
 </body>
 </html>

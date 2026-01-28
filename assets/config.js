@@ -8,20 +8,21 @@ window.CONFIG = {
     { "id": "200x200", "label": "200×200" }
   ],
 
+  // VZGLAVJE: samo tapecirano (brez iverala)
   "headboards": [
     { "id": "gladko", "label": "Gladko" },
     { "id": "kvadratno", "label": "Kvadratno" },
     { "id": "diamantno", "label": "Diamantno" },
-    { "id": "vertikalno", "label": "Vertikalno" },
-    { "id": "iveral", "label": "Brez tapeciranja (iveral)" }
+    { "id": "vertikalno", "label": "Vertikalno" }
   ],
 
   // Okvir je vedno bel (ni UI izbire)
   "frameColorFixed": "bela",
 
+  // Barve vzglavja (tapetnistvo)
   "headboardColors": [
     { "id": "siva", "label": "Siva", "hex": "#8b9099" },
-    { "id": "bez", "label": "Bež", "hex": "#d2b48c" },
+    { "id": "bez", "label": "Bez", "hex": "#d2b48c" },
     { "id": "temno_modra", "label": "Temno modra", "hex": "#1a2a4a" }
   ],
 

@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Konfigurator lebdeče postelje</title>
-  <link rel="stylesheet" href="assets/styles.css?v=4">
+  <title>Konfigurator lebdece postelje</title>
+  <link rel="stylesheet" href="assets/styles.css?v=5">
 </head>
 <body>
   <div class="wrap">
     <div class="stage">
       <div class="hero">
-        <img id="bedImg" src="images/fallback.jpg" alt="Lebdeča postelja" />
+        <img id="bedImg" src="images/fallback.jpg" alt="Lebdeca postelja" />
       </div>
       <div class="imgHint" id="imgHint"></div>
     </div>
 
     <aside class="panel">
-      <h1 class="h1">Konfigurator lebdeče postelje</h1>
+      <h1 class="h1">Konfigurator lebdece postelje</h1>
 
       <div class="row">
-        <div class="label"><span>Dimenzija ležišča</span><span id="sizeVal"></span></div>
+        <div class="label"><span>Dimenzija lezisca</span><span id="sizeVal"></span></div>
         <div class="seg" id="sizes"></div>
       </div>
 
@@ -28,15 +28,11 @@
         <div class="seg5" id="heads"></div>
       </div>
 
-      <!-- Barva okvirja odstranjena: okvir je vedno BEL -->
+      <!-- Okvir je vedno BEL (ni izbire) -->
 
       <div class="row" id="headColorRow">
         <div class="label"><span>Barva vzglavja</span><span id="headColorVal"></span></div>
         <div class="colors" id="headColors"></div>
-      </div>
-
-      <div class="row note" id="headColorNote" style="display:none;">
-        Vzglavje je iz iverala, zato barva vzglavja = barva okvirja (bela).
       </div>
 
       <div class="row">
@@ -57,14 +53,14 @@
         <div class="cart" id="cartBox"></div>
 
         <div class="cta">
-          <button class="btn" id="payBtn">Plačaj (Stripe)</button>
+          <button class="btn" id="payBtn">Placaj (Stripe)</button>
         </div>
-        <div class="small">Naslov in kontakt stranka vpiše v Stripe Checkoutu (shipping address).</div>
+        <div class="small">Naslov in kontakt stranka vpise v Stripe Checkoutu (shipping address).</div>
       </div>
     </aside>
   </div>
 
-  <script src="assets/config.js?v=4"></script>
-  <script src="assets/app.js?v=4"></script>
+  <script src="assets/config.js?v=5"></script>
+  <script src="assets/app.js?v=5"></script>
 </body>
 </html>

@@ -1,24 +1,20 @@
-# Fix za tvoj problem (manjkajo gumbi)
-Če gumbov ni, pomeni da JS ni zagnan. Najpogosteje:
-- odpreš `index.html` direktno z double-click (file://) in ES-moduli se ne naložijo
-- ali GitHub Pages ne servira pravilno module importov
+# Floating Bed Configurator (EN) — GitHub Pages ready
 
-Ta verzija je **NO-MODULE** (navaden JS) in dela:
-✅ na `file://` (lokalno)  
-✅ na GitHub Pages
+- Frame color: ALWAYS WHITE (no selection)
+- Headboard: UPHOLSTERED ONLY
+- English UI
+- Stripe button calls a backend endpoint (required, because GitHub Pages is static)
 
----
+## Deploy on GitHub Pages
+Put these files in your repo ROOT:
+- index.html, success.html, cancel.html
+- assets/ , images/
 
-## Stripe opomba
-GitHub Pages nima backenda. Za "Plačaj (Stripe)" še vedno rabiš endpoint (npr. Cloudflare Worker).
-V `assets/config.js` nastavi:
-`stripe.endpoint = "https://YOUR-WORKER.../create-checkout-session"`
+Then GitHub -> Settings -> Pages -> Deploy from branch -> main + /(root)
 
----
+## Stripe
+Set your backend endpoint in:
+assets/config.js -> stripe.endpoint
 
-## Slike
-Tapecirano:
-`{size}_{headboard}_{frameColor}_{headboardColor}.jpg`
-
-Iveral:
-`{size}_{headboard}_{frameColor}.jpg`
+Recommended backend: Cloudflare Worker
+See /server for a ready Worker you can deploy.

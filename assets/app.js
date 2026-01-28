@@ -1,11 +1,17 @@
 (function () {
   var CONFIG = window.CONFIG;
   if (!CONFIG) {
-    console.error("Missing window.CONFIG. Check assets/config.js is loaded before assets/app.js");
+    console.error("Missing window.CONFIG. Make sure assets/config.js loads before assets/app.js");
     return;
   }
 
   var FIXED_FRAME = CONFIG.frameColorFixed || "bela";
+  var FRAME_LABEL = CONFIG.frameColorLabel || "White";
+
+  function byId(list, id) {
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
 
   var state = {
     size: CONFIG.sizes[0].id,
@@ -16,7 +22,7 @@
   };
 
   function formatEUR(n) {
-    return new Intl.NumberFormat("sl-SI", { style: "currency", currency: CONFIG.pricing.currency }).format(n);
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: CONFIG.pricing.currency }).format(n);
   }
 
   function lastDayOfThisMonth() {
@@ -29,7 +35,7 @@
     var dd = String(end.getDate()).padStart(2, "0");
     var mm = String(end.getMonth() + 1).padStart(2, "0");
     var yyyy = end.getFullYear();
-    return "Akcija velja do " + dd + "." + mm + "." + yyyy + " (naslednji mesec se ponovi).";
+    return "Promo valid until " + dd + "." + mm + "." + yyyy + " (renews every month).";
   }
 
   function imageKey() {
@@ -60,17 +66,21 @@
   }
 
   function render() {
+    var sizeObj = byId(CONFIG.sizes, state.size);
+    var headObj = byId(CONFIG.headboards, state.head);
+    var headColorObj = byId(CONFIG.headboardColors, state.headColor);
+
     document.getElementById("oldPrice").textContent = formatEUR(CONFIG.pricing.old);
     document.getElementById("newPrice").textContent = formatEUR(CONFIG.pricing.base);
     document.getElementById("promoText").textContent = promoText();
-    document.getElementById("totalPill").textContent = "Skupaj: " + formatEUR(total());
+    document.getElementById("totalPill").textContent = "Total: " + formatEUR(total());
 
-    document.getElementById("sizeVal").textContent = state.size;
-    document.getElementById("headVal").textContent = state.head;
-    document.getElementById("headColorVal").textContent = state.headColor;
+    document.getElementById("sizeVal").textContent = sizeObj ? sizeObj.label : state.size;
+    document.getElementById("headVal").textContent = headObj ? headObj.label : state.head;
+    document.getElementById("headColorVal").textContent = headColorObj ? headColorObj.label : state.headColor;
 
     var addCount = state.addons.size;
-    document.getElementById("addonsVal").textContent = addCount ? (addCount + " izbrano") : "0 izbrano";
+    document.getElementById("addonsVal").textContent = addCount ? (addCount + " selected") : "0 selected";
 
     var img = document.getElementById("bedImg");
     var path = buildImagePath();
@@ -78,18 +88,21 @@
     img.onerror = function () { img.src = CONFIG.image.fallback; };
 
     document.getElementById("imgHint").textContent =
-      "Slike: /images | Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "_" + state.headColor + "." + CONFIG.image.ext +
+      "Images: /images | Name: " +
+      state.size + "_" + state.head + "_" + state.frameColor + "_" + state.headColor + "." + CONFIG.image.ext +
       " (fallback: fallback." + CONFIG.image.ext + ")";
 
     var addons = selectedAddonsList();
-    var baseLine = "<div><strong>Postelja (akcija)</strong>: " + formatEUR(CONFIG.pricing.base) + "</div>";
+    var baseLine = "<div><strong>Floating bed (promo)</strong>: " + formatEUR(CONFIG.pricing.base) + "</div>";
     var addLines = addons.length
       ? addons.map(function (a) { return "<div>+ " + a.label + ": " + formatEUR(a.price) + "</div>"; }).join("")
-      : "<div>Brez dodatkov.</div>";
+      : "<div>No add-ons.</div>";
 
     var confLine =
-      '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' +
-      state.size + ", " + state.head + ", okvir: bela, vzglavje: " + state.headColor + "</div>";
+      '<div style="margin-top:8px"><strong>Configuration:</strong> ' +
+      (sizeObj ? sizeObj.label : state.size) + ", " +
+      (headObj ? headObj.label : state.head) + ", frame: " + FRAME_LABEL + ", headboard: " +
+      (headColorObj ? headColorObj.label : state.headColor) + "</div>";
 
     document.getElementById("cartBox").innerHTML = baseLine + addLines + confLine;
   }
@@ -160,7 +173,7 @@
 
       var pill = document.createElement("div");
       pill.className = "pill";
-      pill.textContent = active ? "V kosarici" : "Dodaj";
+      pill.textContent = active ? "In cart" : "Add";
 
       card.appendChild(left);
       card.appendChild(pill);
@@ -187,8 +200,8 @@
       config: {
         size: state.size,
         headboard: state.head,
-        frame_color: state.frameColor,      // vedno "bela"
-        headboard_color: state.headColor,   // vedno relevantno
+        frame_color: state.frameColor,
+        headboard_color: state.headColor,
         addons: Array.from(state.addons)
       }
     };
@@ -202,18 +215,18 @@
 
       if (!res.ok) {
         var t = await res.text();
-        alert("Stripe backend endpoint ni nastavljen ali je napaka.\n\nDetails:\n" + t);
+        alert("Stripe backend endpoint is not set or returned an error.\n\nDetails:\n" + t);
         return;
       }
 
       var data = await res.json();
       if (!data || !data.url) {
-        alert("Missing checkout url from backend.");
+        alert("Missing checkout URL from backend.");
         return;
       }
       window.location.href = data.url;
     } catch (err) {
-      alert("Napaka pri povezavi do Stripe endpointa:\n\n" + err.message);
+      alert("Error connecting to Stripe endpoint:\n\n" + err.message);
     }
   }
 
@@ -222,6 +235,6 @@
     render();
   } catch (e) {
     console.error(e);
-    alert("JS error. Open Console (F12).");
+    alert("JavaScript error. Open Console (F12).");
   }
 })();

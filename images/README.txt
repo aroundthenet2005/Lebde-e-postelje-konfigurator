@@ -1,20 +1,11 @@
-TU DAŠ SLIKE ZA VSAKO KOMBINACIJO (JPG).
+PUT YOUR JPG IMAGES HERE.
 
-A) TAPECIRANO VZGLAVJE:
-Ime: {size}_{headboard}_{frameColor}_{headboardColor}.jpg
+Filename pattern (frame is always white -> 'bela'):
+{size}_{headboard}_bela_{headboardColorId}.jpg
 
-Primer:
-180x200_kvadratno_crna_siva.jpg
+Examples:
+180x200_diamantno_bela_siva.jpg
+200x200_vertikalno_bela_temno_modra.jpg
 
-Headboard id-ji (tapecirano):
-gladko, kvadratno, diamantno, vertikalno
-
-HeadboardColor id-je urejaš v assets/config.js (headboardColors).
-
-B) IVERAL VZGLAVJE:
-Ime: {size}_{headboard}_{frameColor}.jpg
-
-Primer:
-200x200_iveral_hrast.jpg
-
-Če kombinacije ni, se pokaže fallback.jpg
+Fallback:
+fallback.jpg

@@ -1,42 +1,40 @@
 <!doctype html>
-<html lang="sl">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Konfigurator lebdece postelje</title>
-  <link rel="stylesheet" href="assets/styles.css?v=5">
+  <title>Floating Bed Configurator</title>
+  <link rel="stylesheet" href="assets/styles.css?v=1">
 </head>
 <body>
   <div class="wrap">
     <div class="stage">
       <div class="hero">
-        <img id="bedImg" src="images/fallback.jpg" alt="Lebdeca postelja" />
+        <img id="bedImg" src="images/fallback.jpg" alt="Floating bed" />
       </div>
       <div class="imgHint" id="imgHint"></div>
     </div>
 
     <aside class="panel">
-      <h1 class="h1">Konfigurator lebdece postelje</h1>
+      <h1 class="h1">Floating Bed Configurator</h1>
 
       <div class="row">
-        <div class="label"><span>Dimenzija lezisca</span><span id="sizeVal"></span></div>
+        <div class="label"><span>Mattress size</span><span id="sizeVal"></span></div>
         <div class="seg" id="sizes"></div>
       </div>
 
       <div class="row">
-        <div class="label"><span>Stil vzglavja</span><span id="headVal"></span></div>
+        <div class="label"><span>Headboard style</span><span id="headVal"></span></div>
         <div class="seg5" id="heads"></div>
       </div>
 
-      <!-- Okvir je vedno BEL (ni izbire) -->
-
       <div class="row" id="headColorRow">
-        <div class="label"><span>Barva vzglavja</span><span id="headColorVal"></span></div>
+        <div class="label"><span>Headboard color</span><span id="headColorVal"></span></div>
         <div class="colors" id="headColors"></div>
       </div>
 
       <div class="row">
-        <div class="label"><span>Dodatki (LED)</span><span id="addonsVal"></span></div>
+        <div class="label"><span>Add-ons (LED)</span><span id="addonsVal"></span></div>
         <div class="addons" id="addons"></div>
       </div>
 
@@ -53,14 +51,14 @@
         <div class="cart" id="cartBox"></div>
 
         <div class="cta">
-          <button class="btn" id="payBtn">Placaj (Stripe)</button>
+          <button class="btn" id="payBtn">Pay (Stripe)</button>
         </div>
-        <div class="small">Naslov in kontakt stranka vpise v Stripe Checkoutu (shipping address).</div>
+        <div class="small">The customer enters address & contact details in Stripe Checkout (shipping address).</div>
       </div>
     </aside>
   </div>
 
-  <script src="assets/config.js?v=5"></script>
-  <script src="assets/app.js?v=5"></script>
+  <script src="assets/config.js?v=1"></script>
+  <script src="assets/app.js?v=1"></script>
 </body>
 </html>

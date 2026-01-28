@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Konfigurator lebdeče postelje</title>
-
-  <link rel="stylesheet" href="assets/styles.css?v=3">
+  <link rel="stylesheet" href="assets/styles.css?v=4">
 </head>
 <body>
   <div class="wrap">
@@ -29,10 +28,7 @@
         <div class="seg5" id="heads"></div>
       </div>
 
-      <div class="row">
-        <div class="label"><span>Barva okvirja</span><span id="frameColorVal"></span></div>
-        <div class="colors" id="frameColors"></div>
-      </div>
+      <!-- Barva okvirja odstranjena: okvir je vedno BEL -->
 
       <div class="row" id="headColorRow">
         <div class="label"><span>Barva vzglavja</span><span id="headColorVal"></span></div>
@@ -40,7 +36,7 @@
       </div>
 
       <div class="row note" id="headColorNote" style="display:none;">
-        Vzglavje je iz iverala, zato barva vzglavja = barva okvirja.
+        Vzglavje je iz iverala, zato barva vzglavja = barva okvirja (bela).
       </div>
 
       <div class="row">
@@ -68,25 +64,7 @@
     </aside>
   </div>
 
-  <!-- Če JS ne dela zaradi extensionov, bo vsaj vidno: -->
-  <noscript>
-    <div style="max-width:900px;margin:12px auto;color:#fff;padding:12px;border:1px solid #333;border-radius:12px;background:#111;">
-      Tvoj brskalnik ima izklopljen JavaScript, zato konfigurator ne more delati.
-    </div>
-  </noscript>
-
-  <!-- IMPORTANT: config mora biti pred app -->
-  <script src="assets/config.js?v=3"></script>
-  <script src="assets/app.js?v=3"></script>
-
-  <!-- Debug fallback: če extension ubije app.js, boš videl opozorilo -->
-  <script>
-    setTimeout(function(){
-      var sizes = document.getElementById("sizes");
-      if (sizes && sizes.children.length === 0) {
-        console.warn("Konfigurator se ni inicializiral. Verjetno razširitev (extension) blokira JS. Poskusi Incognito ali ugasni razširitve.");
-      }
-    }, 600);
-  </script>
+  <script src="assets/config.js?v=4"></script>
+  <script src="assets/app.js?v=4"></script>
 </body>
 </html>

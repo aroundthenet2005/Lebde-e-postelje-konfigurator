@@ -5,10 +5,12 @@
     return;
   }
 
+  var FIXED_FRAME = CONFIG.frameColorFixed || "bela";
+
   var state = {
     size: CONFIG.sizes[0].id,
     head: CONFIG.headboards[0].id,
-    frameColor: (CONFIG.frameColors[0] && CONFIG.frameColors[0].id) ? CONFIG.frameColors[0].id : "bela",
+    frameColor: FIXED_FRAME,
     headColor: (CONFIG.headboardColors[0] && CONFIG.headboardColors[0].id) ? CONFIG.headboardColors[0].id : "siva",
     addons: new Set()
   };
@@ -50,6 +52,7 @@
   }
 
   function effectiveHeadColor() {
+    // pri iveralu barva vzglavja nima smisla -> enako kot okvir (bela)
     return isIveral() ? state.frameColor : state.headColor;
   }
 
@@ -78,7 +81,6 @@
 
     document.getElementById("sizeVal").textContent = state.size;
     document.getElementById("headVal").textContent = state.head;
-    document.getElementById("frameColorVal").textContent = state.frameColor;
 
     var headColorRow = document.getElementById("headColorRow");
     var headColorVal = document.getElementById("headColorVal");
@@ -104,9 +106,9 @@
 
     var hint = document.getElementById("imgHint");
     if (isIveral()) {
-      hint.textContent = "Slike daj v /images. Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "." + CONFIG.image.ext + " (fallback: fallback." + CONFIG.image.ext + ")";
+      hint.textContent = "Slike: /images | Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "." + CONFIG.image.ext + " (fallback: fallback." + CONFIG.image.ext + ")";
     } else {
-      hint.textContent = "Slike daj v /images. Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "_" + state.headColor + "." + CONFIG.image.ext + " (fallback: fallback." + CONFIG.image.ext + ")";
+      hint.textContent = "Slike: /images | Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "_" + state.headColor + "." + CONFIG.image.ext + " (fallback: fallback." + CONFIG.image.ext + ")";
     }
 
     var addons = selectedAddonsList();
@@ -116,8 +118,8 @@
       : "<div>Brez dodatkov.</div>";
 
     var confLine = isIveral()
-      ? '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' + state.size + ", " + state.head + ", okvir: " + state.frameColor + "</div>"
-      : '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' + state.size + ", " + state.head + ", okvir: " + state.frameColor + ", vzglavje: " + state.headColor + "</div>";
+      ? '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' + state.size + ", " + state.head + ", okvir: bela</div>"
+      : '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' + state.size + ", " + state.head + ", okvir: bela, vzglavje: " + state.headColor + "</div>";
 
     document.getElementById("cartBox").innerHTML = baseLine + addLines + confLine;
   }
@@ -151,33 +153,6 @@
       b.dataset.group = "head";
       b.dataset.id = h.id;
       headsEl.appendChild(b);
-    });
-
-    var frameEl = document.getElementById("frameColors");
-    frameEl.innerHTML = "";
-    CONFIG.frameColors.forEach(function (c) {
-      var btn = document.createElement("div");
-      btn.className = "colorBtn" + (state.frameColor === c.id ? " active" : "");
-      btn.onclick = function () {
-        state.frameColor = c.id;
-        if (isIveral()) state.headColor = state.frameColor;
-        rerenderButtons();
-        render();
-      };
-      btn.dataset.group = "frameColor";
-      btn.dataset.id = c.id;
-
-      var dot = document.createElement("div");
-      dot.className = "colorDot";
-      dot.style.background = c.hex || "#999";
-
-      var label = document.createElement("div");
-      label.style.fontWeight = "800";
-      label.textContent = c.label;
-
-      btn.appendChild(dot);
-      btn.appendChild(label);
-      frameEl.appendChild(btn);
     });
 
     var headColEl = document.getElementById("headColors");
@@ -238,9 +213,6 @@
     document.querySelectorAll("[data-group='head']").forEach(function (el) {
       el.classList.toggle("active", el.dataset.id === state.head);
     });
-    document.querySelectorAll("[data-group='frameColor']").forEach(function (el) {
-      el.classList.toggle("active", el.dataset.id === state.frameColor);
-    });
     document.querySelectorAll("[data-group='headColor']").forEach(function (el) {
       el.classList.toggle("active", el.dataset.id === state.headColor);
     });
@@ -251,7 +223,7 @@
       config: {
         size: state.size,
         headboard: state.head,
-        frame_color: state.frameColor,
+        frame_color: state.frameColor,            // vedno "bela"
         headboard_color: effectiveHeadColor(),
         addons: Array.from(state.addons)
       }

@@ -32,28 +32,14 @@
     return "Akcija velja do " + dd + "." + mm + "." + yyyy + " (naslednji mesec se ponovi).";
   }
 
-  function isIveral() {
-    return state.head === "iveral";
-  }
-
   function imageKey() {
-    if (isIveral()) return state.size + "|" + state.head + "|" + state.frameColor;
     return state.size + "|" + state.head + "|" + state.frameColor + "|" + state.headColor;
   }
 
   function buildImagePath() {
     var key = imageKey();
     if (CONFIG.image.map && CONFIG.image.map[key]) return CONFIG.image.map[key];
-
-    if (isIveral()) {
-      return CONFIG.image.folder + "/" + state.size + "_" + state.head + "_" + state.frameColor + "." + CONFIG.image.ext;
-    }
     return CONFIG.image.folder + "/" + state.size + "_" + state.head + "_" + state.frameColor + "_" + state.headColor + "." + CONFIG.image.ext;
-  }
-
-  function effectiveHeadColor() {
-    // pri iveralu barva vzglavja nima smisla -> enako kot okvir (bela)
-    return isIveral() ? state.frameColor : state.headColor;
   }
 
   function addonsTotal() {
@@ -81,20 +67,7 @@
 
     document.getElementById("sizeVal").textContent = state.size;
     document.getElementById("headVal").textContent = state.head;
-
-    var headColorRow = document.getElementById("headColorRow");
-    var headColorVal = document.getElementById("headColorVal");
-    var headColorNote = document.getElementById("headColorNote");
-
-    if (isIveral()) {
-      headColorRow.style.display = "none";
-      headColorNote.style.display = "block";
-      headColorVal.textContent = state.frameColor;
-    } else {
-      headColorRow.style.display = "block";
-      headColorNote.style.display = "none";
-      headColorVal.textContent = state.headColor;
-    }
+    document.getElementById("headColorVal").textContent = state.headColor;
 
     var addCount = state.addons.size;
     document.getElementById("addonsVal").textContent = addCount ? (addCount + " izbrano") : "0 izbrano";
@@ -104,12 +77,9 @@
     img.src = path;
     img.onerror = function () { img.src = CONFIG.image.fallback; };
 
-    var hint = document.getElementById("imgHint");
-    if (isIveral()) {
-      hint.textContent = "Slike: /images | Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "." + CONFIG.image.ext + " (fallback: fallback." + CONFIG.image.ext + ")";
-    } else {
-      hint.textContent = "Slike: /images | Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "_" + state.headColor + "." + CONFIG.image.ext + " (fallback: fallback." + CONFIG.image.ext + ")";
-    }
+    document.getElementById("imgHint").textContent =
+      "Slike: /images | Ime: " + state.size + "_" + state.head + "_" + state.frameColor + "_" + state.headColor + "." + CONFIG.image.ext +
+      " (fallback: fallback." + CONFIG.image.ext + ")";
 
     var addons = selectedAddonsList();
     var baseLine = "<div><strong>Postelja (akcija)</strong>: " + formatEUR(CONFIG.pricing.base) + "</div>";
@@ -117,9 +87,9 @@
       ? addons.map(function (a) { return "<div>+ " + a.label + ": " + formatEUR(a.price) + "</div>"; }).join("")
       : "<div>Brez dodatkov.</div>";
 
-    var confLine = isIveral()
-      ? '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' + state.size + ", " + state.head + ", okvir: bela</div>"
-      : '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' + state.size + ", " + state.head + ", okvir: bela, vzglavje: " + state.headColor + "</div>";
+    var confLine =
+      '<div style="margin-top:8px"><strong>Konfiguracija:</strong> ' +
+      state.size + ", " + state.head + ", okvir: bela, vzglavje: " + state.headColor + "</div>";
 
     document.getElementById("cartBox").innerHTML = baseLine + addLines + confLine;
   }
@@ -139,17 +109,11 @@
 
     var headsEl = document.getElementById("heads");
     headsEl.innerHTML = "";
-    CONFIG.headboards.forEach(function (h, idx) {
+    CONFIG.headboards.forEach(function (h) {
       var b = document.createElement("button");
       b.textContent = h.label;
       b.className = (state.head === h.id) ? "active" : "";
-      if (idx === CONFIG.headboards.length - 1) b.classList.add("wide");
-      b.onclick = function () {
-        state.head = h.id;
-        if (isIveral()) state.headColor = state.frameColor;
-        rerenderButtons();
-        render();
-      };
+      b.onclick = function () { state.head = h.id; rerenderButtons(); render(); };
       b.dataset.group = "head";
       b.dataset.id = h.id;
       headsEl.appendChild(b);
@@ -223,8 +187,8 @@
       config: {
         size: state.size,
         headboard: state.head,
-        frame_color: state.frameColor,            // vedno "bela"
-        headboard_color: effectiveHeadColor(),
+        frame_color: state.frameColor,      // vedno "bela"
+        headboard_color: state.headColor,   // vedno relevantno
         addons: Array.from(state.addons)
       }
     };
